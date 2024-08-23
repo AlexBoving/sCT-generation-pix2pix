@@ -2,6 +2,7 @@ import os
 from data.base_dataset import BaseDataset, get_params, get_transform
 from data.image_folder import make_dataset
 import numpy as np
+import torch
 from PIL import Image
 
 
@@ -57,13 +58,21 @@ class AlignedDataset(BaseDataset):
         A = (A - A.min()) / (A.max() - A.min())
         B = (B - B.min()) / (B.max() - B.min())
 
+        # Convert the arrays in tensor format
+        A_tensor = torch.from_numpy(A).float()
+        B_tensor = torch.from_numpy(B).float()
+
+        if (len(A_tensor.size()) == 2):
+            A_tensor = A_tensor.unsqueeze(0)
+            B_tensor = B_tensor.unsqueeze(0)
+
         # apply the same transform to both A and B
         transform_params = get_params(self.opt, width, height)
         A_transform = get_transform(self.opt, transform_params, grayscale=(self.input_nc == 1))
         B_transform = get_transform(self.opt, transform_params, grayscale=(self.output_nc == 1))
 
-        A = A_transform(A)
-        B = B_transform(B)
+        A = A_transform(A_tensor)
+        B = B_transform(B_tensor)
 
         return {'A': A, 'B': B, 'A_paths': AB_path, 'B_paths': AB_path}
 
