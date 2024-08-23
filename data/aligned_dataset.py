@@ -48,12 +48,12 @@ class AlignedDataset(BaseDataset):
         B = AB.crop((w2, 0, w, h))
 
         # convert PIL image to array
-        A = np.array(A, dtype=np.float32)
-        B = np.array(B, dtype=np.float32)
+        #A = np.array(A, dtype=np.float32)
+        #B = np.array(B, dtype=np.float32)
 
         # Convert the arrays range from min and max to 0, 255
-        A = (A - A.min()) / (A.max() - A.min())
-        B = (B - B.min()) / (B.max() - B.min())
+        #A = (A - A.min()) / (A.max() - A.min())
+        #B = (B - B.min()) / (B.max() - B.min())
 
         # apply the same transform to both A and B
         transform_params = get_params(self.opt, A.size)
