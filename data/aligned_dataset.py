@@ -55,8 +55,12 @@ class AlignedDataset(BaseDataset):
         B = np.array(B, dtype=np.float32)
 
         # Convert the arrays range from min and max to 0, 255
-        A = (A - A.min()) / (A.max() - A.min())
-        B = (B - B.min()) / (B.max() - B.min())
+        if (A.max() - A.min()) != 0:
+            A = (A - A.min()) / (A.max() - A.min())
+            B = (B - B.min()) / (B.max() - B.min())
+        else:
+            A = A * 0
+            B = B * 0
 
         # Convert the arrays back to PIL images
         A = Image.fromarray(A, mode='F') # mode F is for 32-bit floating point
