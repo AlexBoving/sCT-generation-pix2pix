@@ -143,17 +143,19 @@ def __scale_width(img, target_size, crop_size, method=transforms.InterpolationMo
 
 
 def __crop(img, pos, size):
-    ow, oh = img.size(2), img.size(1)
+    ow, oh = 256, 256
     x1, y1 = pos
     tw = th = size
-    if (ow > tw or oh > th):
-        return img.crop((x1, y1, x1 + tw, y1 + th))
+    #if (ow > tw or oh > th):
+    #    return img.crop((x1, y1, x1 + tw, y1 + th))
     return img
 
 
 def __flip(img, flip):
     if flip:
-        return img.transpose(Image.FLIP_LEFT_RIGHT)
+        #img.transpose(Image.FLIP_LEFT_RIGHT)
+        # do it for an ndarray also 
+        return np.fliplr(img)
     return img
 
 
