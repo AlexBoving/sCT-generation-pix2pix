@@ -143,7 +143,7 @@ def __scale_width(img, target_size, crop_size, method=transforms.InterpolationMo
 
 
 def __crop(img, pos, size):
-    ow, oh = img.size
+    ow, oh = img.size(2), img.size(1)
     x1, y1 = pos
     tw = th = size
     if (ow > tw or oh > th):
