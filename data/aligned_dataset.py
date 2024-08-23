@@ -71,8 +71,8 @@ class AlignedDataset(BaseDataset):
         A_transform = get_transform(self.opt, transform_params, grayscale=(self.input_nc == 1))
         B_transform = get_transform(self.opt, transform_params, grayscale=(self.output_nc == 1))
 
-        A = A_transform(A_tensor)
-        B = B_transform(B_tensor)
+        A = A_transform(A)
+        B = B_transform(B)
 
         return {'A': A, 'B': B, 'A_paths': AB_path, 'B_paths': AB_path}
 
