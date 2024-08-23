@@ -146,16 +146,14 @@ def __crop(img, pos, size):
     ow, oh = 256, 256
     x1, y1 = pos
     tw = th = size
-    #if (ow > tw or oh > th):
-    #    return img.crop((x1, y1, x1 + tw, y1 + th))
+    if (ow > tw or oh > th):
+        return img.crop((x1, y1, x1 + tw, y1 + th))
     return img
 
 
 def __flip(img, flip):
     if flip:
-        #img.transpose(Image.FLIP_LEFT_RIGHT)
-        # do it for an ndarray also 
-        return np.fliplr(img)
+        return img.transpose(Image.FLIP_LEFT_RIGHT)
     return img
 
 

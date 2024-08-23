@@ -58,13 +58,9 @@ class AlignedDataset(BaseDataset):
         A = (A - A.min()) / (A.max() - A.min())
         B = (B - B.min()) / (B.max() - B.min())
 
-        # Convert the arrays in tensor format
-        A_tensor = torch.from_numpy(A).float()
-        B_tensor = torch.from_numpy(B).float()
-
-        if (len(A_tensor.size()) == 2):
-            A_tensor = A_tensor.unsqueeze(0)
-            B_tensor = B_tensor.unsqueeze(0)
+        # Convert the arrays back to PIL images
+        A = Image.fromarray(A, mode='F') # mode F is for 32-bit floating point
+        B = Image.fromarray(B, mode='F') # mode F is for 32-bit floating point
 
         # apply the same transform to both A and B
         transform_params = get_params(self.opt, width, height)
