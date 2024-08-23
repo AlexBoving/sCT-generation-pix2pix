@@ -60,8 +60,8 @@ class BaseDataset(data.Dataset, ABC):
         pass
 
 
-def get_params(opt, size):
-    w, h = size
+def get_params(opt, width, height):
+    w, h = width, height
     new_h = h
     new_w = w
     if opt.preprocess == 'resize_and_crop':
