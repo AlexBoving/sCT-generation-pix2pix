@@ -1,6 +1,8 @@
 import os
 from data.base_dataset import BaseDataset, get_params, get_transform
 from data.image_folder import make_dataset
+import numpy as np
+import torch
 from PIL import Image
 
 
@@ -38,15 +40,34 @@ class AlignedDataset(BaseDataset):
         """
         # read a image given a random integer index
         AB_path = self.AB_paths[index]
-        AB = Image.open(AB_path).convert('RGB')
+        # If my image is in 
+        AB = Image.open(AB_path).convert('I')
         # split AB image into A and B
         w, h = AB.size
         w2 = int(w / 2)
         A = AB.crop((0, 0, w2, h))
         B = AB.crop((w2, 0, w, h))
 
+        width, height = A.size
+
+        # convert PIL image to array
+        A = np.array(A, dtype=np.float32)
+        B = np.array(B, dtype=np.float32)
+
+        # Convert the arrays range from min and max to 0, 255
+        if (A.max() - A.min()) != 0:
+            A = (A - A.min()) / (A.max() - A.min())
+            B = (B - B.min()) / (B.max() - B.min())
+        else:
+            A = A * 0
+            B = B * 0
+
+        # Convert the arrays back to PIL images
+        A = Image.fromarray(A, mode='F') # mode F is for 32-bit floating point
+        B = Image.fromarray(B, mode='F') # mode F is for 32-bit floating point
+
         # apply the same transform to both A and B
-        transform_params = get_params(self.opt, A.size)
+        transform_params = get_params(self.opt, width, height)
         A_transform = get_transform(self.opt, transform_params, grayscale=(self.input_nc == 1))
         B_transform = get_transform(self.opt, transform_params, grayscale=(self.output_nc == 1))
 
