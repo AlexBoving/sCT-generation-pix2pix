@@ -101,11 +101,10 @@ class AlignedDataset(BaseDataset):
         MR1_tensor = A_transform(MR1)
         MR2_tensor = A_transform(MR2)
         MR3_tensor = A_transform(MR3)
-        CT2_tensor = B_transform(CT2)
+        CT = B_transform(CT2)
 
         # I want to have the three MR images in the first, second, and third channel of the tensor
         MR = torch.cat((MR1_tensor, MR2_tensor, MR3_tensor), dim=0)
-        CT = torch.cat((CT2_tensor, CT2_tensor, CT2_tensor), dim=0)
 
         return {'A': MR, 'B': CT, 'A_paths': AB_path, 'B_paths': AB_path}
 
