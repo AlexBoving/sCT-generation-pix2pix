@@ -1,7 +1,10 @@
 import os
 from data.base_dataset import BaseDataset, get_params, get_transform
 from data.image_folder import make_dataset
+import numpy as np
+import torch
 from PIL import Image
+import tifffile as tiff
 
 
 class AlignedDataset(BaseDataset):
@@ -38,22 +41,73 @@ class AlignedDataset(BaseDataset):
         """
         # read a image given a random integer index
         AB_path = self.AB_paths[index]
-        AB = Image.open(AB_path).convert('RGB')
+        # If my image is in 
+        #AB = Image.open(AB_path).convert('I')
+        stack = tiff.imread(AB_path)
+
+        ct1 = stack[:, :, 0]
+        ct2 = stack[:, :, 1]
+        ct3 = stack[:, :, 2]
+
+        # Convert to PIL image of 16-bit
+        ct1 = Image.fromarray(ct1).convert('I;16')
+        ct2 = Image.fromarray(ct2).convert('I;16')
+        ct3 = Image.fromarray(ct3).convert('I;16')
+
         # split AB image into A and B
-        w, h = AB.size
+        w, h = ct1.size
         w2 = int(w / 2)
-        A = AB.crop((0, 0, w2, h))
-        B = AB.crop((w2, 0, w, h))
+
+        MR1 = ct1.crop((0, 0, w2, h))
+        MR2 = ct2.crop((0, 0, w2, h))
+        MR3 = ct3.crop((0, 0, w2, h))
+        CT2 = ct2.crop((w2, 0, w, h)) # C'est celui ci qu'on veut
+
+        width, height = MR1.size
+        
+        CT2 = np.array(CT2, dtype=np.float32)
+        MR1 = np.array(MR1, dtype=np.float32)
+        MR2 = np.array(MR2, dtype=np.float32)
+        MR3 = np.array(MR3, dtype=np.float32)
+
+        if (CT2.max() - CT2.min()) != 0:
+            CT2 = (CT2 - CT2.min()) / (CT2.max() - CT2.min())
+        else:
+            CT2 = CT2 * 0
+        if (MR1.max() - MR1.min()) != 0:
+            MR1 = (MR1 - MR1.min()) / (MR1.max() - MR1.min())
+        else:
+            MR1 = MR1 * 0
+        if (MR2.max() - MR2.min()) != 0:
+            MR2 = (MR2 - MR2.min()) / (MR2.max() - MR2.min())
+        else:
+            MR2 = MR2 * 0
+        if (MR3.max() - MR3.min()) != 0:
+            MR3 = (MR3 - MR3.min()) / (MR3.max() - MR3.min())
+        else:
+            MR3 = MR3 * 0
+
+        # Convert the arrays back to PIL images
+        CT2 = Image.fromarray(CT2, mode='F') # F: 32-bit floating point pixel
+        MR1 = Image.fromarray(MR1, mode='F') # F: 32-bit floating point pixel
+        MR2 = Image.fromarray(MR2, mode='F') # F: 32-bit floating point pixel
+        MR3 = Image.fromarray(MR3, mode='F') # F: 32-bit floating point pixel
 
         # apply the same transform to both A and B
-        transform_params = get_params(self.opt, A.size)
-        A_transform = get_transform(self.opt, transform_params, grayscale=(self.input_nc == 1))
-        B_transform = get_transform(self.opt, transform_params, grayscale=(self.output_nc == 1))
+        transform_params = get_params(self.opt, width, height)
+        A_transform = get_transform(self.opt, transform_params, grayscale=True)
+        B_transform = get_transform(self.opt, transform_params, grayscale=True)
 
-        A = A_transform(A)
-        B = B_transform(B)
+        MR1_tensor = A_transform(MR1)
+        MR2_tensor = A_transform(MR2)
+        MR3_tensor = A_transform(MR3)
+        CT2_tensor = B_transform(CT2)
 
-        return {'A': A, 'B': B, 'A_paths': AB_path, 'B_paths': AB_path}
+        # I want to have the three MR images in the first, second, and third channel of the tensor
+        MR = torch.cat((MR1_tensor, MR2_tensor, MR3_tensor), dim=0)
+        CT = torch.cat((CT2_tensor, CT2_tensor, CT2_tensor), dim=0)
+
+        return {'A': MR, 'B': CT, 'A_paths': AB_path, 'B_paths': AB_path}
 
     def __len__(self):
         """Return the total number of images in the dataset."""

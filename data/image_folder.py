@@ -7,6 +7,7 @@ so that this class can load images from both current directory and its subdirect
 import torch.utils.data as data
 
 from PIL import Image
+import tifffile as tiff
 import os
 
 IMG_EXTENSIONS = [
@@ -33,7 +34,7 @@ def make_dataset(dir, max_dataset_size=float("inf")):
 
 
 def default_loader(path):
-    return Image.open(path).convert('RGB')
+    return tiff.imread(path)
 
 
 class ImageFolder(data.Dataset):
