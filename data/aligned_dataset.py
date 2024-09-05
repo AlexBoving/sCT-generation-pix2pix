@@ -42,7 +42,7 @@ class AlignedDataset(BaseDataset):
         AB_path = self.AB_paths[index]
         # If my image is in
         B = Image.open(AB_path).convert('I')
-        A = Image.open(AB_path).convert('RGB')
+        A = Image.open(AB_path).convert('L')
         # split AB image into A and B
         w, h = A.size
         w2 = int(w / 2)
