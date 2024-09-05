@@ -34,7 +34,7 @@ def make_dataset(dir, max_dataset_size=float("inf")):
 
 
 def default_loader(path):
-    return tiff.imread(path)
+    return Image.open(path).convert('I')
 
 
 class ImageFolder(data.Dataset):
