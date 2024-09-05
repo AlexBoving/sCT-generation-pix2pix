@@ -41,29 +41,26 @@ class AlignedDataset(BaseDataset):
         # read a image given a random integer index
         AB_path = self.AB_paths[index]
         # If my image is in
-        AB = Image.open(AB_path).convert('I')
+        B = Image.open(AB_path).convert('I')
+        A = Image.open(AB_path).convert('RGB')
         # split AB image into A and B
-        w, h = AB.size
+        w, h = A.size
         w2 = int(w / 2)
-        A = AB.crop((0, 0, w2, h))
-        B = AB.crop((w2, 0, w, h))
+        A = A.crop((0, 0, w2, h))
+        B = B.crop((w2, 0, w, h))
 
         width, height = A.size
 
         # convert PIL image to array
-        A = np.array(A, dtype=np.float32)
         B = np.array(B, dtype=np.float32)
 
         # Convert the arrays range from min and max to 0, 255
-        if (A.max() - A.min()) != 0:
-            A = (A - A.min()) / (A.max() - A.min()) * 255.0
+        if (B.max() - B.min()) != 0:
             B = (B - B.min()) / (B.max() - B.min())
         else:
-            A = A * 0
             B = B * 0
 
         # Convert the arrays back to PIL images
-        A = Image.fromarray(A, mode='L')
         B = Image.fromarray(B, mode='F') # mode F is for 32-bit floating point
 
         # apply the same transform to both A and B
