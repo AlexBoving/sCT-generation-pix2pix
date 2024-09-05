@@ -63,7 +63,7 @@ class AlignedDataset(BaseDataset):
             B = B * 0
 
         # Convert the arrays back to PIL images
-        A = Image.fromarray(A, mode='RGB')
+        A = Image.fromarray(A, mode='L')
         B = Image.fromarray(B, mode='F') # mode F is for 32-bit floating point
 
         # apply the same transform to both A and B
