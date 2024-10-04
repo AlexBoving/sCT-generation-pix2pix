@@ -5,6 +5,8 @@ import numpy as np
 import torch
 from PIL import Image
 
+## This is for 16-bit images.
+
 
 class AlignedDataset(BaseDataset):
     """A dataset class for paired image dataset.
@@ -40,7 +42,7 @@ class AlignedDataset(BaseDataset):
         """
         # read a image given a random integer index
         AB_path = self.AB_paths[index]
-        # If my image is in
+        # If my image is in 
         AB = Image.open(AB_path).convert('I')
         # split AB image into A and B
         w, h = AB.size
@@ -51,22 +53,25 @@ class AlignedDataset(BaseDataset):
         width, height = A.size
 
         # convert PIL image to array
+        A = np.array(A, dtype=np.float32)
         B = np.array(B, dtype=np.float32)
-        A = A.convert('L')
 
         # Convert the arrays range from min and max to 0, 255
-        if (B.max() - B.min()) != 0:
+        if (A.max() - A.min()) != 0:
+            A = (A - A.min()) / (A.max() - A.min())
             B = (B - B.min()) / (B.max() - B.min())
         else:
+            A = A * 0
             B = B * 0
 
         # Convert the arrays back to PIL images
+        A = Image.fromarray(A, mode='F') # mode F is for 32-bit floating point
         B = Image.fromarray(B, mode='F') # mode F is for 32-bit floating point
 
         # apply the same transform to both A and B
         transform_params = get_params(self.opt, width, height)
-        A_transform = get_transform(self.opt, transform_params, grayscale=True)
-        B_transform = get_transform(self.opt, transform_params, grayscale=True)
+        A_transform = get_transform(self.opt, transform_params, grayscale=(self.input_nc == 1))
+        B_transform = get_transform(self.opt, transform_params, grayscale=(self.output_nc == 1))
 
         A = A_transform(A)
         B = B_transform(B)

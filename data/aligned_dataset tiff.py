@@ -6,6 +6,7 @@ import torch
 from PIL import Image
 import tifffile as tiff
 
+## This is for tiff images.
 
 class AlignedDataset(BaseDataset):
     """A dataset class for paired image dataset.

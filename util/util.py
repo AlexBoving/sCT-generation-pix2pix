@@ -5,6 +5,8 @@ import numpy as np
 from PIL import Image
 import os
 
+## This is for 16-bit images.
+
 
 def tensor2im(input_image, imtype=np.uint16):
     """"Converts a Tensor array into a numpy image array.
