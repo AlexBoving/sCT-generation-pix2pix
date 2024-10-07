@@ -59,22 +59,30 @@ class AlignedDataset(BaseDataset):
         w, h = ct1.size
         w2 = int(w / 2)
 
+        MR0 = ct1.crop((w2, 0, w, h))
         MR1 = ct1.crop((0, 0, w2, h))
-        MR2 = ct2.crop((0, 0, w2, h))
+        MR2 = ct2.crop((0, 0, w2, h)) # This one is central.
         MR3 = ct3.crop((0, 0, w2, h))
+        MR4 = ct3.crop((w2, 0, w, h))
         CT2 = ct2.crop((w2, 0, w, h)) # C'est celui ci qu'on veut
 
         width, height = MR1.size
         
         CT2 = np.array(CT2, dtype=np.float32)
+        MR0 = np.array(MR0, dtype=np.float32)
         MR1 = np.array(MR1, dtype=np.float32)
         MR2 = np.array(MR2, dtype=np.float32)
         MR3 = np.array(MR3, dtype=np.float32)
+        MR4 = np.array(MR4, dtype=np.float32)
 
         if (CT2.max() - CT2.min()) != 0:
             CT2 = (CT2 - CT2.min()) / (CT2.max() - CT2.min())
         else:
             CT2 = CT2 * 0
+        if (MR0.max() - MR0.min()) != 0:
+            MR0 = (MR0 - MR0.min()) / (MR0.max() - MR0.min())
+        else:
+            MR0 = MR0 * 0
         if (MR1.max() - MR1.min()) != 0:
             MR1 = (MR1 - MR1.min()) / (MR1.max() - MR1.min())
         else:
@@ -87,25 +95,31 @@ class AlignedDataset(BaseDataset):
             MR3 = (MR3 - MR3.min()) / (MR3.max() - MR3.min())
         else:
             MR3 = MR3 * 0
+        if (MR4.max() - MR4.min()) != 0:
+            MR4 = (MR4 - MR4.min()) / (MR4.max() - MR4.min())
 
         # Convert the arrays back to PIL images
         CT2 = Image.fromarray(CT2, mode='F') # F: 32-bit floating point pixel
+        MR0 = Image.fromarray(MR0, mode='F') # F: 32-bit floating point pixel
         MR1 = Image.fromarray(MR1, mode='F') # F: 32-bit floating point pixel
         MR2 = Image.fromarray(MR2, mode='F') # F: 32-bit floating point pixel
         MR3 = Image.fromarray(MR3, mode='F') # F: 32-bit floating point pixel
+        MR4 = Image.fromarray(MR4, mode='F') # F: 32-bit floating point pixel
 
         # apply the same transform to both A and B
         transform_params = get_params(self.opt, width, height)
         A_transform = get_transform(self.opt, transform_params, grayscale=True)
         B_transform = get_transform(self.opt, transform_params, grayscale=True)
 
+        MR0_tensor = A_transform(MR0)
         MR1_tensor = A_transform(MR1)
         MR2_tensor = A_transform(MR2)
         MR3_tensor = A_transform(MR3)
+        MR4_tensor = A_transform(MR4)
         CT = B_transform(CT2)
 
         # I want to have the three MR images in the first, second, and third channel of the tensor
-        MR = torch.cat((MR1_tensor, MR2_tensor, MR3_tensor), dim=0)
+        MR = torch.cat((MR0_tensor, MR1_tensor, MR2_tensor, MR3_tensor, MR4_tensor), dim=0)
 
         return {'A': MR, 'B': CT, 'A_paths': AB_path, 'B_paths': AB_path}
 
