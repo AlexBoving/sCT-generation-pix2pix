@@ -1,18 +1,13 @@
 
 ![1BA307_118_real_A](https://github.com/user-attachments/assets/6e713b2b-e9ea-4a27-8612-1b7024ce8217)![1BA307_118_real_B](https://github.com/user-attachments/assets/69e6d988-7da6-4019-9640-e58525ea3dea)
 
-# Synthetic CT Generation from 2D MRI images Using Pix2Pix (cGAN)
+# Synthetic CT generation from 2D MRI images using Pix2Pix (cGAN)
 
 The code was written by [Jun-Yan Zhu](https://github.com/junyanz) and [Taesung Park](https://github.com/taesungp), and supported by [Tongzhou Wang](https://github.com/SsnL).
 
 This PyTorch implementation produces results comparable to or better than the original Torch software. If you would like to reproduce the same results as in the papers, check out the original [CycleGAN Torch](https://github.com/junyanz/CycleGAN) and [pix2pix Torch](https://github.com/phillipi/pix2pix) code in Lua/Torch.
 
 **Note**: The current software works well with PyTorch 1.4. Check out the older [branch](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix/tree/pytorch0.3.1) that supports PyTorch 0.1-0.3.
-
-You may find useful information in [training/test tips](docs/tips.md) and [frequently asked questions](docs/qa.md). To implement custom models and datasets, check out our [templates](#custom-model-and-dataset). To help users better understand and adapt our codebase, we provide an [overview](docs/overview.md) of the code structure of this repository.
-
-**CycleGAN: [Project](https://junyanz.github.io/CycleGAN/) |  [Paper](https://arxiv.org/pdf/1703.10593.pdf) |  [Torch](https://github.com/junyanz/CycleGAN) |
-[Tensorflow Core Tutorial](https://www.tensorflow.org/tutorials/generative/cyclegan) | [PyTorch Colab](https://colab.research.google.com/github/junyanz/pytorch-CycleGAN-and-pix2pix/blob/master/CycleGAN.ipynb)**
 
 <img src="https://junyanz.github.io/CycleGAN/images/teaser_high_res.jpg" width="800"/>
 
