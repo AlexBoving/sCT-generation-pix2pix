@@ -56,25 +56,21 @@ cd sCT-generation-pix2pix
   - For pip users, please type the command `pip install -r requirements.txt`.
   - For Conda users, you can create a new Conda environment using `conda env create -f environment.yml`.
   - For Docker users, we provide the pre-built Docker image and Dockerfile. Please refer to our [Docker](docs/docker.md) page.
-  - For Repl users, please click [![Run on Repl.it](https://repl.it/badge/github/junyanz/pytorch-CycleGAN-and-pix2pix)](https://repl.it/github/junyanz/pytorch-CycleGAN-and-pix2pix).
 
 ### pix2pix train/test
 - To view training results and loss plots, run `python -m visdom.server` and click the URL http://localhost:8097.
 - To log training progress and test images to W&B dashboard, set the `--use_wandb` flag with train and test script
 - Train a model:
 ```bash
-#!./scripts/train_pix2pix.sh
-python train.py --dataroot ./datasets/facades --name facades_pix2pix --model pix2pix --direction BtoA
+python train.py --dataroot ./datasets/brain_mr_ct_16bit_gray --name brain_mr_ct_16bit_gray --model pix2pix --direction AtoB
 ```
-To see more intermediate results, check out  `./checkpoints/facades_pix2pix/web/index.html`.
+To see more intermediate results, check out  `./checkpoints/brain_mr_ct_16bit_gray/web/index.html`.
 
-- Test the model (`bash ./scripts/test_pix2pix.sh`):
+- Test the model:
 ```bash
-#!./scripts/test_pix2pix.sh
-python test.py --dataroot ./datasets/facades --name facades_pix2pix --model pix2pix --direction BtoA
+python test.py --dataroot ./datasets/brain_mr_ct_16bit_gray --name brain_mr_ct_16bit_gray --model pix2pix --direction AtoB
 ```
-- The test results will be saved to a html file here: `./results/facades_pix2pix/test_latest/index.html`. You can find more scripts at `scripts` directory.
-- To train and test pix2pix-based colorization models, please add `--model colorization` and `--dataset_mode colorization`. See the training [tips](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix/blob/master/docs/tips.md#notes-on-colorization) for more details.
+- The test results will be saved to a html file here: `./results/brain_mr_ct_16bit_gray/test_latest/index.html`. You can find more scripts at `scripts` directory.
 
 ## Docker
 The Dockerfile that can run this code repo. See [docker](docs/docker.md).
