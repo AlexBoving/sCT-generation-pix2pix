@@ -61,10 +61,10 @@ class AlignedDataset(BaseDataset):
 
         MR0 = ct1.crop((w2, 0, w, h))
         MR1 = ct1.crop((0, 0, w2, h))
-        MR2 = ct2.crop((0, 0, w2, h)) # This one is central.
+        MR2 = ct2.crop((0, 0, w2, h))
         MR3 = ct3.crop((0, 0, w2, h))
         MR4 = ct3.crop((w2, 0, w, h))
-        CT2 = ct2.crop((w2, 0, w, h)) # C'est celui ci qu'on veut
+        CT2 = ct2.crop((w2, 0, w, h))
 
         width, height = MR1.size
         
