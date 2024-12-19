@@ -12,7 +12,7 @@ This PyTorch implementation produces results comparable to or better than the or
 **Pix2pix:  [Project](https://phillipi.github.io/pix2pix/) |  [Paper](https://arxiv.org/pdf/1611.07004.pdf) |  [Torch](https://github.com/phillipi/pix2pix) |
 [Tensorflow Core Tutorial](https://www.tensorflow.org/tutorials/generative/pix2pix) | [PyTorch Colab](https://colab.research.google.com/github/junyanz/pytorch-CycleGAN-and-pix2pix/blob/master/pix2pix.ipynb)**
 
-<img src='imgs/edges2cats.jpg' width="400px"/>
+![image 1](https://github.com/user-attachments/assets/ef1edae9-32e2-42b6-b978-2e34077528c9)
 
 If you use this code for your research, please cite:
 
