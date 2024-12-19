@@ -1,9 +1,9 @@
 
-<img src='imgs/horse2zebra.gif' align="right" width=384>
+![1BA307_118_real_A](https://github.com/user-attachments/assets/6e713b2b-e9ea-4a27-8612-1b7024ce8217)![1BA307_118_real_B](https://github.com/user-attachments/assets/69e6d988-7da6-4019-9640-e58525ea3dea)
 
-<br><br><br>
 
-# CycleGAN and pix2pix in PyTorch
+
+# Synthetic CT Generation for Radiotherapy Treatment Planning Using Deep Learning
 
 **New**:  Please check out [img2img-turbo](https://github.com/GaParmar/img2img-turbo) repo that includes both pix2pix-turbo and CycleGAN-Turbo. Our new one-step image-to-image translation methods can support both paired and unpaired training and produce better results by leveraging the pre-trained StableDiffusion-Turbo model. The inference time for 512x512 image is 0.29 sec on A6000 and 0.11 sec on A100.
 
@@ -199,9 +199,6 @@ Download pix2pix/CycleGAN datasets and create your own datasets.
 ## [Training/Test Tips](docs/tips.md)
 Best practice for training and testing your models.
 
-## [Frequently Asked Questions](docs/qa.md)
-Before you post a new question, please first look at the above Q & A and existing GitHub issues.
-
 ## Custom Model and Dataset
 If you plan to implement custom models and dataset for your new applications, we provide a dataset [template](data/template_dataset.py) and a model [template](models/template_model.py) as a starting point.
 
@@ -213,7 +210,7 @@ You are always welcome to contribute to this repository by sending a [pull reque
 Please run `flake8 --ignore E501 .` and `python ./scripts/test_before_push.py` before you commit the code. Please also update the code structure [overview](docs/overview.md) accordingly if you add or remove files.
 
 ## Citation
-If you use this code for your research, please cite our papers.
+If you use this code for your research, please cite the authors papers.
 ```
 @inproceedings{CycleGAN2017,
   title={Unpaired Image-to-Image Translation using Cycle-Consistent Adversarial Networks},
@@ -231,18 +228,5 @@ If you use this code for your research, please cite our papers.
 }
 ```
 
-## Other Languages
-[Spanish](docs/README_es.md)
-
-## Related Projects
-**[contrastive-unpaired-translation](https://github.com/taesungp/contrastive-unpaired-translation) (CUT)**<br>
-**[CycleGAN-Torch](https://github.com/junyanz/CycleGAN) |
-[pix2pix-Torch](https://github.com/phillipi/pix2pix) | [pix2pixHD](https://github.com/NVIDIA/pix2pixHD)|
-[BicycleGAN](https://github.com/junyanz/BicycleGAN) | [vid2vid](https://tcwang0509.github.io/vid2vid/) | [SPADE/GauGAN](https://github.com/NVlabs/SPADE)**<br>
-**[iGAN](https://github.com/junyanz/iGAN) | [GAN Dissection](https://github.com/CSAILVision/GANDissect) | [GAN Paint](http://ganpaint.io/)**
-
-## Cat Paper Collection
-If you love cats, and love reading cool graphics, vision, and learning papers, please check out the Cat Paper [Collection](https://github.com/junyanz/CatPapers).
-
 ## Acknowledgments
-Our code is inspired by [pytorch-DCGAN](https://github.com/pytorch/examples/tree/master/dcgan).
+The code is inspired by [pytorch-DCGAN](https://github.com/pytorch/examples/tree/master/dcgan).
